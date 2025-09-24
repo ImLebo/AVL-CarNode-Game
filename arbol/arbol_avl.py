@@ -14,7 +14,6 @@ class ArbolAVL:
                 self.raiz = nuevo_nodo
             else:
                 self._insertar_recursivo(self.raiz, nuevo_nodo)
-            self._balancear(self.raiz)
     
     def _insertar_recursivo(self, nodo_actual, nuevo_nodo):
         if nuevo_nodo.valor < nodo_actual.valor:
@@ -23,12 +22,14 @@ class ArbolAVL:
                 nuevo_nodo.padre = nodo_actual
             else:
                 self._insertar_recursivo(nodo_actual.izquierdo, nuevo_nodo)
+                self._balancear(nodo_actual)
         else:
             if nodo_actual.derecho is None:
                 nodo_actual.derecho = nuevo_nodo
                 nuevo_nodo.padre = nodo_actual
             else:
                 self._insertar_recursivo(nodo_actual.derecho, nuevo_nodo)
+                self._balancear(nodo_actual)
     
     def _balancear(self, nodo):
         if nodo is None:

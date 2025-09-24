@@ -1,0 +1,20 @@
+# Archivos de configuración sensibles
+.env
+
+# Archivos de cache de Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+
+# Archivos de logs
+*.log
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+
+# Configuración de IDE
+.vscode/
+.idea/
