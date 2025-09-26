@@ -1,4 +1,4 @@
-from arbol.arbol_avl import ArbolAVL
+from avl.arbol_avl import ArbolAVL
 
 if __name__ == "__main__":
     arbol = ArbolAVL()

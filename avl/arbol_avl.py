@@ -1,4 +1,4 @@
-from arbol.nodo import Nodo
+from avl.nodo import Nodo
 
 class ArbolAVL:
     def __init__(self):
