@@ -1,37 +1,56 @@
 from avl.nodo import Nodo
+from avl.obstaculo import Obstaculo
 
 class ArbolAVL:
     def __init__(self):
         self.raiz : Nodo = None
         
-    def insertar(self, valor):
-        nodo = self.buscarNodo(valor)
+    def insertar(self, nuevo_nodo: Nodo):
+        nodo = self.buscarNodo(nuevo_nodo)
         if(nodo is not None):
-            print("El valor ya existe en el árbol.")
+            print(f"El valor ya existe en el árbol, en la posición ({nuevo_nodo.valor_x}, {nuevo_nodo.valor_y})")
         else:
-            nuevo_nodo = Nodo(valor)
             if not self.raiz:
                 self.raiz = nuevo_nodo
             else:
                 self._insertar_recursivo(self.raiz, nuevo_nodo)
     
-    def _insertar_recursivo(self, nodo_actual, nuevo_nodo):
-        if nuevo_nodo.valor < nodo_actual.valor:
+    def _insertar_recursivo(self, nodo_actual: Nodo, nuevo_nodo: Nodo):
+        #Nuevo nodo Izquierdo por X
+        if nuevo_nodo.valor_x < nodo_actual.valor_x:
             if nodo_actual.izquierdo is None:
                 nodo_actual.izquierdo = nuevo_nodo
                 nuevo_nodo.padre = nodo_actual
             else:
                 self._insertar_recursivo(nodo_actual.izquierdo, nuevo_nodo)
                 self._balancear(nodo_actual)
-        else:
+        #Nuevo nodo Derecho por x
+        elif nuevo_nodo.valor_x > nodo_actual.valor_x:
             if nodo_actual.derecho is None:
                 nodo_actual.derecho = nuevo_nodo
                 nuevo_nodo.padre = nodo_actual
             else:
                 self._insertar_recursivo(nodo_actual.derecho, nuevo_nodo)
                 self._balancear(nodo_actual)
+        #Empate de x comparacion a través de Y
+        else: 
+            if nuevo_nodo.valor_y < nodo_actual.valor_y:
+                if nodo_actual.izquierdo is None: 
+                    nodo_actual.izquierdo = nuevo_nodo
+                    nuevo_nodo.padre = nodo_actual
+                else:
+                    self._insertar_recursivo(nodo_actual.izquierdo, nuevo_nodo)
+                    self._balancear(nodo_actual)
+            else:
+                if nodo_actual.derecho is None:
+                    nodo_actual.derecho = nuevo_nodo
+                    nuevo_nodo.padre = nodo_actual
+                else:
+                    self._insertar_recursivo(nodo_actual.derecho, nuevo_nodo)
+                    self._balancear(nodo_actual)              
+                
     
-    def _balancear(self, nodo):
+    def _balancear(self, nodo: Nodo):
         if nodo is None:
             return
         
@@ -48,15 +67,15 @@ class ArbolAVL:
         
         self._balancear(nodo.padre)
     
-    def _actualizar_factor_balanceo(self, nodo):
+    def _actualizar_factor_balanceo(self, nodo: Nodo):
         nodo.factor_balanceo = self._altura(nodo.izquierdo) - self._altura(nodo.derecho)
         
-    def _altura(self, nodo):
+    def _altura(self, nodo: Nodo):
         if nodo is None:
             return 0
         return 1 + max(self._altura(nodo.izquierdo), self._altura(nodo.derecho))
     
-    def _rotacion_derecha(self, nodo):
+    def _rotacion_derecha(self, nodo: Nodo):
         nuevo_padre = nodo.izquierdo
         nodo.izquierdo = nuevo_padre.derecho
         if nuevo_padre.derecho:
@@ -74,7 +93,7 @@ class ArbolAVL:
         self._actualizar_factor_balanceo(nodo)
         self._actualizar_factor_balanceo(nuevo_padre)
         
-    def _rotacion_izquierda(self, nodo):
+    def _rotacion_izquierda(self, nodo: Nodo):
         nuevo_padre = nodo.derecho
         nodo.derecho = nuevo_padre.izquierdo
         if nuevo_padre.izquierdo:
@@ -139,31 +158,46 @@ class ArbolAVL:
             actual = actual.izquierdo
         return actual
     
-    def inorder(self, nodo=None):
-        if nodo is None:
-            nodo = self.raiz
-        if nodo.izquierdo:
-            self.inorder(nodo.izquierdo)
-        print(nodo.value, end=" ")
-        if nodo.derecho:
-            self.inorder(nodo.derecho)
-    
-    def buscarNodo(self, valor):
+    def buscarNodo(self, nodo_buscado):
         if self.raiz is None:
             print("El árbol está vacío.")
             return None
         else:
-            return self._buscar_recursivo(self.raiz, valor)
+            return self._buscar_recursivo(self.raiz, nodo_buscado)
     
-    def _buscar_recursivo(self, nodo, valor):
-        if nodo is None:
+    def _buscar_recursivo(self, nodo_raiz: Nodo, nodo_buscado: Nodo):
+        if nodo_raiz is None:
             return None
-        if valor == nodo.valor:
-            return nodo
-        elif valor < nodo.valor:
-            return self._buscar_recursivo(nodo.izquierdo, valor)
+        if nodo_buscado.valor_x == nodo_raiz.valor_x and nodo_buscado.valor_y == nodo_raiz.valor_y:
+            return nodo_raiz
+        elif nodo_buscado.valor_x < nodo_raiz.valor_x:
+            return self._buscar_recursivo(nodo_raiz.izquierdo, nodo_buscado)
         else:
-            return self._buscar_recursivo(nodo.derecho, valor)
+            return self._buscar_recursivo(nodo_raiz.derecho, nodo_buscado)
+        
+    def preorden(self, nodo: Nodo = None):
+        if nodo is None:
+            nodo = self.raiz
+        if nodo:
+            print(f"({nodo.valor_x}, {nodo.valor_y})", end=" -> ")
+            self.preorden(nodo.izquierdo)
+            self.preorden(nodo.derecho)
+
+    def inorden(self, nodo: Nodo = None):
+        if nodo is None:
+            nodo = self.raiz
+        if nodo:
+            self.inorden(nodo.izquierdo)
+            print(f"({nodo.valor_x}, {nodo.valor_y})", end=" -> ")
+            self.inorden(nodo.derecho)
+
+    def postorden(self, nodo: Nodo = None):
+        if nodo is None:
+            nodo = self.raiz
+        if nodo:
+            self.postorden(nodo.izquierdo)
+            self.postorden(nodo.derecho)
+            print(f"({nodo.valor_x}, {nodo.valor_y})", end=" -> ")
     
     def imprimirArbol(self, nodo: Nodo =None, prefijo="", es_izquierdo=True):
         if nodo is not None:
