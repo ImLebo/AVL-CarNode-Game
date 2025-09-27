@@ -26,6 +26,10 @@ class VentanaJuego:
         # Estado del mundo
         self.mundo_x = 0
         self.tiempo = 0
+        self.distancia_px_objetivo = config["distancia_m"]
+
+        # Control de tiempo
+        self.ultimo_avance = pygame.time.get_ticks()  # milisegundos iniciales
 
     def cargar_obstaculos(self, ruta_json):
         with open(ruta_json, "r") as f:
@@ -59,16 +63,36 @@ class VentanaJuego:
 
     def actualizar(self):
         self.tiempo += 1
-        self.mundo_x += 2
+
+        # Avance automático basado en intervalo
+        ahora = pygame.time.get_ticks()
+        if ahora - self.ultimo_avance >= self.config["intervalo_ms"]:
+            self.mundo_x += self.config["avance_px"]
+            self.ultimo_avance = ahora
 
         # Actualizar carro
         self.carro.actualizar()
-
+        
+        # Verificar meta
+        if self.mundo_x >= self.distancia_px_objetivo:
+            print("¡Meta alcanzada!")
+            from game.views.gameover import GameOver
+            fondo = pygame.image.load(self.config["fondos"]["menu"]).convert()
+            fondo = pygame.transform.scale(
+                fondo,
+                (self.config["ancho_pantalla"], self.config["alto_pantalla"])
+            )
+            self.manager.cambiar_escena(GameOver(self.manager, self.config, fondo))
+        
     def dibujar(self, pantalla):
         pantalla.blit(self.fondo, (0, 0))
 
-        # Dibujar obstáculos (por ahora inorden)
-        visibles = self.arbol.inorden()
+        x_min = self.mundo_x
+        x_max = self.mundo_x + self.config["ancho_pantalla"]
+
+        # Obstáculos visibles en rango (versión iterativa)
+        visibles = self.arbol.consulta_rango(x_min, x_max)
+
         for nodo in visibles:
             x = nodo.x1 - self.mundo_x
             y = nodo.y1
@@ -77,10 +101,14 @@ class VentanaJuego:
             rect = pygame.Rect(x, y, w, h)
             pygame.draw.rect(pantalla, (100, 100, 100), rect)
 
-        # Dibujar carro
         self.carro.dibujar(pantalla)
 
-        # HUD (tiempo)
+        # HUD
         fuente = pygame.font.SysFont(None, 40)
-        texto = fuente.render(f"Tiempo: {self.tiempo}", True, (255, 255, 255))
+        distancia_recorrida_m = self.mundo_x
+        texto = fuente.render(
+            f"Tiempo: {self.tiempo}  Distancia: {distancia_recorrida_m} m / {self.config['distancia_m']} m",
+            True,
+            (255, 255, 255)
+        )
         pantalla.blit(texto, (10, 10))

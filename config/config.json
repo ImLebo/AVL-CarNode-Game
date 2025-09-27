@@ -3,9 +3,10 @@
     "alto_pantalla": 600,
     "color_fondo": [135, 206, 235],
     "velocidad_y": 5,
-    "avance_px": 100,
+    "avance_px": 50,
     "intervalo_ms": 200,
     "salto_altura": 100,
+    "distancia_m": 3000,
     "fondos": {
         "menu": "assets/UI/fondo_1.png",
         "juego": "assets/world/atardecer.png"

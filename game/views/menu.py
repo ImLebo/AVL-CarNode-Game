@@ -23,4 +23,4 @@ class Menu:
         pantalla.blit(self.fondo, (0, 0))
         fuente = pygame.font.SysFont(None, 50)
         texto = fuente.render("Presiona ENTER para Jugar", True, (255, 255, 255))
-        pantalla.blit(texto, (100, 300))
+        pantalla.blit(texto, ((self.config['ancho_pantalla']/2 - (self.config['ancho_pantalla'])*(1/4+1/3)/2), self.config['alto_pantalla'] - (self.config['alto_pantalla']*1/8)))

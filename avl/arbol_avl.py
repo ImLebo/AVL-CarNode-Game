@@ -210,6 +210,32 @@ class ArbolAVL:
             self.postorden(nodo.izquierdo)
             self.postorden(nodo.derecho)
             print(f"({nodo.valor_x}, {nodo.valor_y})", end=" -> ")
+            
+    def consulta_rango(self, x_min=0, x_max=800):
+        """
+        Iterativa: retorna los nodos del árbol cuyo rango X esté dentro de [x_min, x_max].
+        """
+        resultado = []
+        stack = []
+        nodo = self.raiz
+
+        while stack or nodo:
+            # Bajar a la izquierda
+            while nodo:
+                stack.append(nodo)
+                nodo = nodo.izquierdo
+
+            nodo = stack.pop()
+
+            # Verificar si el nodo está dentro del rango visible
+            if nodo.x2 >= x_min and nodo.x1 <= x_max:
+                resultado.append(nodo)
+
+            # Pasar al derecho
+            nodo = nodo.derecho
+
+        return resultado
+
     
     def imprimirArbol(self, nodo: Nodo =None, prefijo="", es_izquierdo=True):
         if nodo is not None:
