@@ -1,0 +1,13 @@
+{
+    "ancho_pantalla": 800,
+    "alto_pantalla": 600,
+    "color_fondo": [135, 206, 235],
+    "velocidad_y": 5,
+    "avance_px": 100,
+    "intervalo_ms": 200,
+    "salto_altura": 100,
+    "fondos": {
+        "menu": "assets/UI/fondo_1.png",
+        "juego": "assets/world/atardecer.png"
+    }
+}

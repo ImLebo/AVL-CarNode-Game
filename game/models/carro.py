@@ -30,6 +30,8 @@ class Carro:
         # Estado del carro
         self.saltando = False
         self.velocidad_salto = 0
+        self.suelo_y = self.y
+        
         self.frame_actual = 0
         self.contador_anim = 0
 
@@ -44,17 +46,20 @@ class Carro:
         if teclas[pygame.K_DOWN]:
             self.y += self.velocidad_y
 
-        # Salto
+        # Inicia salto
         if not self.saltando and teclas[pygame.K_SPACE]:
             self.saltando = True
             self.velocidad_salto = self.salto_impulso
+            self.suelo_y = self.y
 
-    def actualizar(self, alto_pantalla):
+    def actualizar(self):
         if self.saltando:
             self.y += self.velocidad_salto
             self.velocidad_salto += self.gravedad
-            if self.y >= alto_pantalla - self.alto - 50:  # suelo
-                self.y = alto_pantalla - self.alto - 50
+
+            # Cuando vuelva al suelo de referencia
+            if self.y >= self.suelo_y:
+                self.y = self.suelo_y
                 self.saltando = False
 
         # Actualizar animación (cambiar entre frame1 y frame2 cada 10 ticks)
