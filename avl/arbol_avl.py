@@ -1,5 +1,4 @@
 from avl.nodo import Nodo
-from avl.obstaculo import Obstaculo
 
 class ArbolAVL:
     def __init__(self):
@@ -183,13 +182,26 @@ class ArbolAVL:
             self.preorden(nodo.izquierdo)
             self.preorden(nodo.derecho)
 
-    def inorden(self, nodo: Nodo = None):
+    def inorden(self, nodo: Nodo = None, resultado=None):
+        if resultado is None:
+            resultado = []
+            
         if nodo is None:
             nodo = self.raiz
-        if nodo:
-            self.inorden(nodo.izquierdo)
-            print(f"({nodo.valor_x}, {nodo.valor_y})", end=" -> ")
-            self.inorden(nodo.derecho)
+
+        if nodo is None:
+            return resultado
+
+        if nodo.izquierdo:
+            self.inorden(nodo.izquierdo, resultado)
+
+        resultado.append(nodo)
+
+        if nodo.derecho:
+            self.inorden(nodo.derecho, resultado)
+
+        return resultado
+
 
     def postorden(self, nodo: Nodo = None):
         if nodo is None:

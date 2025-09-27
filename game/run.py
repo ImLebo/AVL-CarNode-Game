@@ -3,7 +3,7 @@ import sys
 import json
 from avl.nodo import Nodo
 from avl.arbol_avl import ArbolAVL
-from game.models.carro import Carro
+from models.carro import Carro
 
 # ---------------------------------------------------
 # CONFIGURACIÓN (simulada - luego cargaremos de JSON)
@@ -36,7 +36,7 @@ def main():
     reloj = pygame.time.Clock()
 
     # Crear carro
-    carro = Carro('./config/carro.json')
+    carro = Carro('../config/carro.json')
 
     # Crear árbol AVL de obstáculos
     arbol = ArbolAVL()
