@@ -10,7 +10,7 @@
     "avance_px": 10,
     "intervalo_ms": 20,
     "salto_altura": 100,
-    "distancia_m": 1000,
+    "distancia_m": 5000,
     "fondos": {
         "menu": "assets/UI/fondo_1.png",
         "juego": "assets/world/atardecer.png"

@@ -2,6 +2,9 @@ import pygame, json
 from avl.arbol_avl import ArbolAVL
 from avl.nodo import Nodo
 from game.models.carro import Carro
+from game.utils.graficador import GraficadorAVL
+from game.utils.colisiones import GestorColisiones
+import queue
 
 class VentanaJuego:
     def __init__(self, manager, config):
@@ -18,10 +21,14 @@ class VentanaJuego:
 
         # Árbol AVL
         self.arbol = ArbolAVL()
+        self.cola_eventos = queue.Queue()
         self.cargar_obstaculos("config/obstaculos.json")
+        self.graficador = GraficadorAVL(self.arbol, self.cola_eventos)
+        self.graficador.start()
 
         # Carro (jugador)
         self.carro = Carro("config/carro.json")
+        self.gestor_colisiones = GestorColisiones(self.arbol, self.carro, config, self.cola_eventos)
 
         # Estado del mundo
         self.mundo_x = 0
@@ -42,6 +49,8 @@ class VentanaJuego:
                 tipo=obs["tipo"]
             )
             self.arbol.insertar(nodo)
+            
+        self.cola_eventos.put("actualizar")
 
     def iniciar(self):
         print("Escena: Juego iniciada")
@@ -64,7 +73,7 @@ class VentanaJuego:
     def actualizar(self):
         self.tiempo += 1
 
-        # Avance automático basado en intervalo
+        # Avance automático
         ahora = pygame.time.get_ticks()
         if ahora - self.ultimo_avance >= self.config["intervalo_ms"]:
             self.mundo_x += self.config["avance_px"]
@@ -72,10 +81,11 @@ class VentanaJuego:
 
         # Actualizar carro
         self.carro.actualizar()
-        
-        # Verificar meta
-        if self.mundo_x >= self.distancia_px_objetivo:
-            print("¡Meta alcanzada!")
+
+        # Colisiones + limpieza de obstáculos
+        gameover = self.gestor_colisiones.verificar(self.mundo_x)
+        if gameover:
+            print("💀 Game Over por energía agotada")
             from game.views.gameover import GameOver
             fondo = pygame.image.load(self.config["fondos"]["menu"]).convert()
             fondo = pygame.transform.scale(
@@ -83,9 +93,24 @@ class VentanaJuego:
                 (self.config["ancho_pantalla"], self.config["alto_pantalla"])
             )
             self.manager.cambiar_escena(GameOver(self.manager, self.config, fondo))
-        
+
+        # Meta alcanzada
+        if self.mundo_x >= self.distancia_px_objetivo:
+            print("🏁 Meta alcanzada!")
+            from game.views.gameover import GameOver
+            fondo = pygame.image.load(self.config["fondos"]["menu"]).convert()
+            fondo = pygame.transform.scale(
+                fondo,
+                (self.config["ancho_pantalla"], self.config["alto_pantalla"])
+            )
+            self.manager.cambiar_escena(GameOver(self.manager, self.config, fondo))
+
+
     def dibujar(self, pantalla):
         pantalla.blit(self.fondo, (0, 0))
+        
+        if self.graficador.surface:
+            pantalla.blit(self.graficador.surface, (400, 20))
 
         x_min = self.mundo_x
         x_max = self.mundo_x + self.config["ancho_pantalla"]
