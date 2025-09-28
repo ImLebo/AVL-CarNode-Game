@@ -107,7 +107,7 @@ class VentanaJuego:
         fuente = pygame.font.SysFont(None, 40)
         distancia_recorrida_m = self.mundo_x
         texto = fuente.render(
-            f"Tiempo: {self.tiempo}  Distancia: {distancia_recorrida_m} m / {self.config['distancia_m']} m",
+            f"Distancia: {distancia_recorrida_m} m / {self.config['distancia_m']} m",
             True,
             (255, 255, 255)
         )
