@@ -23,7 +23,7 @@
     "botones": [
         {
             "x": 300,
-            "y": 250,
+            "y": 210,
             "ancho": 200,
             "alto": 60,
             "imagen": "assets/UI/btn_jugar.png",
@@ -31,7 +31,7 @@
         },
         {
             "x": 300,
-            "y": 330,
+            "y": 290,
             "ancho": 200,
             "alto": 60,
             "imagen": "assets/UI/btn_opciones.png",
@@ -39,7 +39,7 @@
         },
         {
             "x": 300,
-            "y": 410,
+            "y": 370,
             "ancho": 200,
             "alto": 60,
             "imagen": "assets/UI/btn_recorridos.png",
@@ -47,11 +47,21 @@
         },
         {
             "x": 300,
-            "y": 490,
+            "y": 450,
+            "ancho": 200,
+            "alto": 60,
+            "imagen": "assets/UI/btn_obstaculos.png",
+            "nombre": "obstaculos"
+        },
+        {
+            "x": 300,
+            "y": 530,
             "ancho": 200,
             "alto": 60,
             "imagen": "assets/UI/btn_salir.png",
             "nombre": "salir"
         }
+       
+
     ]
 }

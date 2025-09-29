@@ -1,6 +1,8 @@
 class GestorViews:
-    def __init__(self):
+    def __init__(self, pantalla, config):
         self.escena_actual = None
+        self.pantalla = pantalla 
+        self.config = config
 
     def cambiar_escena(self, nueva_escena):
         """ Cambia a una nueva escena """
@@ -18,3 +20,4 @@ class GestorViews:
     def dibujar(self, pantalla):
         if self.escena_actual:
             self.escena_actual.dibujar(pantalla)
+    
