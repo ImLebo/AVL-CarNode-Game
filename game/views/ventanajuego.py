@@ -122,23 +122,23 @@ class VentanaJuego:
         if gameover:
             print("💀 Game Over por energía agotada")
             from game.views.gameover import GameOver
-            fondo = pygame.image.load(self.config["fondos"]["menu"]).convert()
+            fondo = pygame.image.load(self.config["fondos"]["juego"]).convert()
             fondo = pygame.transform.scale(
                 fondo,
                 (self.config["ancho_pantalla"], self.config["alto_pantalla"])
             )
-            self.manager.cambiar_escena(GameOver(self.manager, self.config, fondo))
+            self.manager.cambiar_escena(GameOver(self.manager, fondo))
 
         # Meta alcanzada
         if self.mundo_x >= self.distancia_px_objetivo:
             print("🏁 Meta alcanzada!")
-            from game.views.gameover import GameOver
-            fondo = pygame.image.load(self.config["fondos"]["menu"]).convert()
+            from game.views.end import End
+            fondo = pygame.image.load(self.config["fondos"]["juego"]).convert()
             fondo = pygame.transform.scale(
                 fondo,
                 (self.config["ancho_pantalla"], self.config["alto_pantalla"])
             )
-            self.manager.cambiar_escena(GameOver(self.manager, self.config, fondo))
+            self.manager.cambiar_escena(End(self.manager.pantalla, self.config["ancho_pantalla"], self.config["alto_pantalla"], fondo))
 
 
     def dibujar(self, pantalla):

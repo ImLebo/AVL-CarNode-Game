@@ -141,7 +141,7 @@
         "y1": 460,
         "y2": 510,
         "tipo": "2",
-        "img":"assets/sprites/obstaculos/Barrier.png"
+        "img": "assets/sprites/obstaculos/Barrier.png"
     },
     {
         "x1": 3800,

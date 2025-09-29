@@ -33,6 +33,9 @@ class Menu:
                         elif accion == "opciones":
                             from game.views.opciones import Opciones
                             self.manager.cambiar_escena(Opciones(self.manager, self.config))
+                        elif accion == "obstaculos":
+                            from game.views.insertar_obstaculos import ObstaculoForm
+                            self.manager.cambiar_escena(ObstaculoForm(self.manager, self.config))
                         elif accion == "recorridos":
                             from game.views.recorridos import Recorridos
                             self.manager.cambiar_escena(Recorridos(self.manager, self.config))

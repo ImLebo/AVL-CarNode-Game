@@ -26,7 +26,7 @@ def main():
     reloj = pygame.time.Clock()
 
     # Gestor de escenas
-    manager = GestorViews()
+    manager = GestorViews(pantalla, CONFIG)
     # Pasamos CONFIG al inicializar la escena
     manager.cambiar_escena(Menu(manager, CONFIG, fondo_menu))
 
@@ -35,7 +35,7 @@ def main():
         for evento in eventos:
             if evento.type == pygame.QUIT:
                 pygame.quit()
-                sys.exit()
+                sys.exit(0)
 
         manager.manejar_eventos(eventos)
         manager.actualizar()
