@@ -27,7 +27,7 @@ def main():
 
     # Gestor de escenas
     manager = GestorViews()
-    # 👇 Pasamos CONFIG al inicializar la escena
+    # Pasamos CONFIG al inicializar la escena
     manager.cambiar_escena(Menu(manager, CONFIG, fondo_menu))
 
     while True:
