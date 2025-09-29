@@ -19,12 +19,12 @@ class Opciones:
         self.inputs = {
             "avance_px": InputBox(300, 150, 140, 40, config["avance_px"]),
             "intervalo_ms": InputBox(300, 200, 140, 40, config["intervalo_ms"]),
-            "distancia_m": InputBox(300, 300, 140, 40, config["distancia_m"])
+            "distancia_m": InputBox(300, 250, 140, 40, config["distancia_m"])
         }
 
         # InputBox para configuraciones del carro
         self.inputcarro = {
-            "salto_impulso": InputBox(300, 250, 140, 40, self.carroconfig["salto_impulso"])
+            "salto_impulso": InputBox(300, 300, 140, 40, self.carroconfig["salto_impulso"])
         }
 
         # Botones
