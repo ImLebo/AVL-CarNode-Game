@@ -7,6 +7,7 @@ class Obstaculo:
         self.y2 = y2
         self.tipo = tipo
         self.img = img
+        self.img_surface = None
         self.colisionado = False
 
 class Nodo(Obstaculo):

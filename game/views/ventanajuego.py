@@ -61,12 +61,28 @@ class VentanaJuego:
             nodo = Nodo(
                 x1=obs["x1"], x2=obs["x2"],
                 y1=obs["y1"], y2=obs["y2"],
-                tipo=obs["tipo"]
+                tipo=obs["tipo"],
+                img=obs.get("img")  # ✅ la ruta del JSON
             )
+
+            # 📌 Si tiene ruta de imagen, la cargamos de una vez
+            if nodo.img:
+                try:
+                    w = nodo.x2 - nodo.x1
+                    h = nodo.y2 - nodo.y1
+                    imagen = pygame.image.load(nodo.img).convert_alpha()
+                    nodo.img_surface = pygame.transform.scale(imagen, (w, h))
+                except Exception as e:
+                    print(f"⚠️ No se pudo cargar {nodo.img}: {e}")
+                    nodo.img_surface = None
+            else:
+                nodo.img_surface = None
+
             self.arbol.insertar(nodo)
 
         if self.cola_eventos:
             self.cola_eventos.put("actualizar")
+
 
     def iniciar(self):
         print("Escena: Juego iniciada")
@@ -148,7 +164,13 @@ class VentanaJuego:
             w = nodo.x2 - nodo.x1
             h = nodo.y2 - nodo.y1
             rect = pygame.Rect(x, y, w, h)
-            pygame.draw.rect(pantalla, (255, 0, 0), rect)
+
+            if nodo.img_surface:  # ✅ usamos la superficie precargada
+                pantalla.blit(nodo.img_surface, (x, y))
+            else:
+                color = (255, 0, 0) if nodo.tipo == "meta" else (100, 100, 100)
+                pygame.draw.rect(pantalla, color, rect)
+
 
         self.carro.dibujar(pantalla)
 
