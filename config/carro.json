@@ -1,0 +1,15 @@
+{
+    "x": 100,
+    "y": 500,
+    "ancho": 64,
+    "alto": 32,
+    "energia": 10,
+    "velocidad_y": 5,
+    "salto_impulso": -20,
+    "gravedad": 1,
+    "sprites": {
+        "frame1": "assets/sprites/carro/car_1.png",
+        "frame2": "assets/sprites/carro/car_2.png",
+        "salto": "assets/sprites/carro/car_3.png"
+    }
+}

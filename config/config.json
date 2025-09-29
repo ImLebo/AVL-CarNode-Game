@@ -1,0 +1,57 @@
+{
+    "ancho_pantalla": 800,
+    "alto_pantalla": 600,
+    "color_fondo": [
+        135,
+        206,
+        235
+    ],
+    "velocidad_y": 5,
+    "avance_px": 10,
+    "intervalo_ms": 20,
+    "salto_altura": 100,
+    "distancia_m": 5000,
+    "fondos": {
+        "menu": "assets/UI/fondo_1.png",
+        "juego": "assets/world/atardecer.png"
+    },
+    "carretera": {
+        "y": 400,
+        "alto": 200,
+        "img": "assets/carretera/2.png"
+    },
+    "botones": [
+        {
+            "x": 300,
+            "y": 250,
+            "ancho": 200,
+            "alto": 60,
+            "imagen": "assets/UI/btn_jugar.png",
+            "nombre": "jugar"
+        },
+        {
+            "x": 300,
+            "y": 330,
+            "ancho": 200,
+            "alto": 60,
+            "imagen": "assets/UI/btn_opciones.png",
+            "nombre": "opciones"
+        },
+        {
+            "x": 300,
+            "y": 410,
+            "ancho": 200,
+            "alto": 60,
+            "imagen": "assets/UI/btn_recorridos.png",
+            "nombre": "recorridos"
+        },
+        {
+            "x": 300,
+            "y": 490,
+            "ancho": 200,
+            "alto": 60,
+            "imagen": "assets/UI/btn_salir.png",
+            "nombre": "salir"
+        }
+    ]
+}
