@@ -18,6 +18,17 @@ class VentanaJuego:
             self.fondo,
             (config["ancho_pantalla"], config["alto_pantalla"])
         )
+        
+        # Fondo de carretera
+        self.carretera_alto = config["carretera"]["alto"]
+        ruta_carretera = config["carretera"]["img"]
+        self.carretera_img = pygame.image.load(ruta_carretera).convert_alpha()
+        self.carretera_img = pygame.transform.scale(
+            self.carretera_img,
+            (config["ancho_pantalla"], config["carretera"]["alto"])
+        )
+
+        self.carretera_y = config["carretera"]["y"]
 
         # Árbol AVL
         self.arbol = ArbolAVL()
@@ -49,15 +60,16 @@ class VentanaJuego:
                 tipo=obs["tipo"]
             )
             self.arbol.insertar(nodo)
-            
-        self.cola_eventos.put("actualizar")
+
+        if self.cola_eventos:
+            self.cola_eventos.put("actualizar")
 
     def iniciar(self):
         print("Escena: Juego iniciada")
 
     def manejar_eventos(self, eventos):
         teclas = pygame.key.get_pressed()
-        self.carro.mover(teclas)
+        self.carro.mover(teclas, self.carretera_y, self.config["carretera"]["alto"])
 
         for evento in eventos:
             if evento.type == pygame.KEYDOWN:
@@ -109,6 +121,8 @@ class VentanaJuego:
     def dibujar(self, pantalla):
         pantalla.blit(self.fondo, (0, 0))
         
+        pantalla.blit(self.carretera_img, (0, self.carretera_y))
+        
         if self.graficador.surface:
             pantalla.blit(self.graficador.surface, (400, 20))
 
@@ -124,7 +138,7 @@ class VentanaJuego:
             w = nodo.x2 - nodo.x1
             h = nodo.y2 - nodo.y1
             rect = pygame.Rect(x, y, w, h)
-            pygame.draw.rect(pantalla, (100, 100, 100), rect)
+            pygame.draw.rect(pantalla, (255, 0, 0), rect)
 
         self.carro.dibujar(pantalla)
 

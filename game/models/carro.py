@@ -39,14 +39,20 @@ class Carro:
     def rect(self):
         return pygame.Rect(self.x, self.y, self.ancho, self.alto)
 
-    def mover(self, teclas):
-        # Movimiento vertical
+    def mover(self, teclas, carretera_y, carretera_alto):
+        # Movimiento vertical libre
         if teclas[pygame.K_UP]:
             self.y -= self.velocidad_y
         if teclas[pygame.K_DOWN]:
             self.y += self.velocidad_y
 
-        # Inicia salto
+        # 🔒 Limitar dentro de la carretera
+        if self.y < carretera_y:
+            self.y = carretera_y
+        if self.y + self.alto > carretera_y + carretera_alto:
+            self.y = carretera_y + carretera_alto - self.alto
+
+        # Salto
         if not self.saltando and teclas[pygame.K_SPACE]:
             self.saltando = True
             self.velocidad_salto = self.salto_impulso

@@ -15,6 +15,11 @@
         "menu": "assets/UI/fondo_1.png",
         "juego": "assets/world/atardecer.png"
     },
+    "carretera": {
+        "y": 400,
+        "alto": 200,
+        "img": "assets/carretera/2.png"
+    },
     "botones": [
         {
             "x": 300,

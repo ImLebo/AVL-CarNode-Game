@@ -5,7 +5,7 @@
     "alto": 32,
     "energia": 100,
     "velocidad_y": 5,
-    "salto_impulso": -10,
+    "salto_impulso": -20,
     "gravedad": 1,
     "sprites": {
         "frame1": "assets/sprites/carro/car_1.png",
