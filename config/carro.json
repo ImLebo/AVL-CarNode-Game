@@ -3,7 +3,7 @@
     "y": 500,
     "ancho": 64,
     "alto": 32,
-    "energia": 100,
+    "energia": 10,
     "velocidad_y": 5,
     "salto_impulso": -20,
     "gravedad": 1,

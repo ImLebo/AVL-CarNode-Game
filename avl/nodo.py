@@ -7,6 +7,7 @@ class Obstaculo:
         self.y2 = y2
         self.tipo = tipo
         self.img = img
+        self.colisionado = False
 
 class Nodo(Obstaculo):
     def __init__(self, padre=None, x1=0, x2=0, y1=0, y2=0, tipo="", img=None):

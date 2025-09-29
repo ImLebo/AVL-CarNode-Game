@@ -42,6 +42,14 @@
             "y": 410,
             "ancho": 200,
             "alto": 60,
+            "imagen": "assets/UI/btn_recorridos.png",
+            "nombre": "recorridos"
+        },
+        {
+            "x": 300,
+            "y": 490,
+            "ancho": 200,
+            "alto": 60,
             "imagen": "assets/UI/btn_salir.png",
             "nombre": "salir"
         }

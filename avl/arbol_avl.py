@@ -174,18 +174,32 @@ class ArbolAVL:
         else:
             return self._buscar_recursivo(nodo_raiz.derecho, nodo_buscado)
         
-    def preorden(self, nodo: Nodo = None):
+    def preorden(self, nodo: Nodo = None, resultado=None):
+        if resultado is None:
+            resultado = []
+
         if nodo is None:
             nodo = self.raiz
-        if nodo:
-            print(f"({nodo.valor_x}, {nodo.valor_y})", end=" -> ")
-            self.preorden(nodo.izquierdo)
-            self.preorden(nodo.derecho)
+
+        if nodo is None:
+            return resultado
+
+        # visitar nodo
+        resultado.append(nodo)
+
+        # recorrer hijos
+        if nodo.izquierdo:
+            self.preorden(nodo.izquierdo, resultado)
+        if nodo.derecho:
+            self.preorden(nodo.derecho, resultado)
+
+        return resultado
+
 
     def inorden(self, nodo: Nodo = None, resultado=None):
         if resultado is None:
             resultado = []
-            
+                
         if nodo is None:
             nodo = self.raiz
 
@@ -203,13 +217,45 @@ class ArbolAVL:
         return resultado
 
 
-    def postorden(self, nodo: Nodo = None):
+    def postorden(self, nodo: Nodo = None, resultado=None):
+        if resultado is None:
+            resultado = []
+
         if nodo is None:
             nodo = self.raiz
-        if nodo:
-            self.postorden(nodo.izquierdo)
-            self.postorden(nodo.derecho)
-            print(f"({nodo.valor_x}, {nodo.valor_y})", end=" -> ")
+
+        if nodo is None:
+            return resultado
+
+        if nodo.izquierdo:
+            self.postorden(nodo.izquierdo, resultado)
+        if nodo.derecho:
+            self.postorden(nodo.derecho, resultado)
+
+        # visitar nodo
+        resultado.append(nodo)
+
+        return resultado
+
+
+    def anchura(self):
+        """Recorrido por niveles (BFS)"""
+        resultado = []
+        if not self.raiz:
+            return resultado
+
+        cola = [self.raiz]
+        while cola:
+            actual = cola.pop(0)
+            resultado.append(actual)
+
+            if actual.izquierdo:
+                cola.append(actual.izquierdo)
+            if actual.derecho:
+                cola.append(actual.derecho)
+
+        return resultado
+
             
     def consulta_rango(self, x_min=0, x_max=800):
         """

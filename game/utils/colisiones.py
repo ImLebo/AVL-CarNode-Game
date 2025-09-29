@@ -38,11 +38,22 @@ class GestorColisiones:
             h = nodo.y2 - nodo.y1
             obstaculo_rect = pygame.Rect(x, y, w, h)
 
-            if carro_rect.colliderect(obstaculo_rect):
-                print(f"💥 Colisión con {nodo.tipo} en ({nodo.x1},{nodo.y1})")
-                self.carro.energia -= 10
+            if carro_rect.colliderect(obstaculo_rect) and not nodo.colisionado and not self.carro.saltando:
+                # Determinar daño
+                try:
+                    daño = int(nodo.tipo)
+                except ValueError:
+                    daño = 1
 
-        # ⚡ Eliminar los ya pasados
+                self.carro.energia -= daño
+                if self.carro.energia < 0:
+                    self.carro.energia = 0
+
+                nodo.colisionado = True  # 🚨 marcar como colisionado
+                print(f"💥 Colisión con {nodo.tipo} en ({nodo.x1},{nodo.y1}), daño={daño}, energía={self.carro.energia}")
+
+
+        # ⚡ Eliminar los obstáculos marcados
         for nodo in obstaculos_a_eliminar:
             print(f"✔ Eliminando obstáculo {nodo.tipo} en ({nodo.x1},{nodo.y1})")
             self.arbol.eliminar(nodo)

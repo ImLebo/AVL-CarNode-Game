@@ -29,6 +29,10 @@ class VentanaJuego:
         )
 
         self.carretera_y = config["carretera"]["y"]
+        
+        # Offset de desplazamiento
+        self.carretera_offset = 0
+        self.velocidad_carretera = 5  # píxeles por frame
 
         # Árbol AVL
         self.arbol = ArbolAVL()
@@ -93,6 +97,9 @@ class VentanaJuego:
 
         # Actualizar carro
         self.carro.actualizar()
+        
+        # Mover carretera
+        self.carretera_offset = (self.carretera_offset + self.velocidad_carretera) % self.config["ancho_pantalla"]
 
         # Colisiones + limpieza de obstáculos
         gameover = self.gestor_colisiones.verificar(self.mundo_x)
@@ -121,10 +128,13 @@ class VentanaJuego:
     def dibujar(self, pantalla):
         pantalla.blit(self.fondo, (0, 0))
         
-        pantalla.blit(self.carretera_img, (0, self.carretera_y))
+        # Dibujar carretera con scroll infinito
+        pantalla.blit(self.carretera_img, (-self.carretera_offset, self.carretera_y))
+        pantalla.blit(self.carretera_img, (self.config["ancho_pantalla"] - self.carretera_offset, self.carretera_y))
+
         
         if self.graficador.surface:
-            pantalla.blit(self.graficador.surface, (400, 20))
+            pantalla.blit(self.graficador.surface, (500, 50))
 
         x_min = self.mundo_x
         x_max = self.mundo_x + self.config["ancho_pantalla"]

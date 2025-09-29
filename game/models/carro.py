@@ -27,6 +27,10 @@ class Carro:
         self.sprite2 = pygame.transform.scale(self.sprite2, (self.ancho, self.alto))
         self.sprite_salto = pygame.transform.scale(self.sprite_salto, (self.ancho, self.alto))
 
+        # 🔋 Cargar sprite de batería
+        self.bateria_img = pygame.image.load("assets/sprites/carro/bateria.png").convert_alpha()
+        self.bateria_img = pygame.transform.scale(self.bateria_img, (30, 30))  # tamaño fijo
+
         # Estado del carro
         self.saltando = False
         self.velocidad_salto = 0
@@ -47,10 +51,11 @@ class Carro:
             self.y += self.velocidad_y
 
         # 🔒 Limitar dentro de la carretera
-        if self.y < carretera_y:
-            self.y = carretera_y
-        if self.y + self.alto > carretera_y + carretera_alto:
-            self.y = carretera_y + carretera_alto - self.alto
+        if not self.saltando:
+            if self.y < carretera_y+15:
+                self.y = carretera_y+15
+            if self.y + self.alto > carretera_y + carretera_alto - 15:
+                self.y = carretera_y + carretera_alto - self.alto - 15
 
         # Salto
         if not self.saltando and teclas[pygame.K_SPACE]:
@@ -82,3 +87,7 @@ class Carro:
                 pantalla.blit(self.sprite1, (self.x, self.y))
             else:
                 pantalla.blit(self.sprite2, (self.x, self.y))
+                
+        # 🔋 Dibujar energía (baterías) en la parte superior derecha
+        for i in range(self.energia):
+            pantalla.blit(self.bateria_img, (800 - (i+1)*35, 10))
